@@ -1,0 +1,79 @@
+<% layout('/layout/boilerplate.ejs') -%>
+<body>
+    <div class="row">
+        <div class="col-8 offset-2">
+              <form  method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation">
+        <h2> edit listing</h2>
+
+        <div class="mb-3">
+            <lable for="title" class="form-lable">title</lable>
+             <input type="text" name="listing[title]" value="<%= listing.title %>" class="form-control" required>
+             <div class="valid-feedback">Good job</div>
+             <div class="invalid-feedback">oops</div>
+
+
+        </div>
+
+       
+       <div  class="mb-3">
+        <lable for="description" class="form-lable">Description</lable>
+             <textarea name="listing[description]"  class="form-control" required><%= listing.description %></textarea>
+              <div class="valid-feedback">you must have not written anything </div>
+             <div class="invalid-feedback">go on</div>
+              
+
+       </div>
+   
+       
+        <div  class="mb-3">
+             <lable for="image" class="form-lable">URL/Link</lable>
+             <input type="text"  value="<%= listing.image %>" name="listing[image]" class="form-control">
+             
+
+        </div>
+       
+       
+        <div  class="mb-3">
+              <lable for="price" class="form-lable">Price</lable>
+            <input type="number" value="<%= listing.price %>" name="listing[price]" class="form-control" required>
+            <div class="valid-feedback">good price hn</div>
+             <div class="invalid-feedback">price is not sufficient</div>
+
+        </div>
+
+        
+       <div class="row" >
+        <div  class="mb-3 col-md-4">
+               <lable for="location" class="form-lable">Location</lable>
+             <input type="text" value="<%= listing.location %>" name="listing[location]" class="form-control" required>
+              <div class="valid-feedback">exist</div>
+             <div class="invalid-feedback">location does'nt exist</div>
+           
+
+        </div>
+        <div  class="mb-3 col-md-8">
+            <lable for="country" class="form-lable">Country</lable>
+ 
+ 
+            <input type="text" value="<%= listing.country %>" name="listing[country]" class="form-control" required >
+             <div class="valid-feedback">exist</div>
+             <div class="invalid-feedback">country does'nt exist</div>
+             
+        </div>
+
+       </div>
+        
+       
+
+       
+       
+        <button class="btn btn-dark mb-5 btn-">add</button>
+        <br>
+
+    </form>
+
+        </div>
+    </div>
+   
+    
+</body>

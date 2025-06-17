@@ -1,0 +1,90 @@
+.body{
+ display: flex;
+ flex-direction: column;
+ min-height: 100vh !important;
+
+}
+.navbar {
+    height: 5rem;
+    background-color: white;
+}
+
+.fa-compass{
+    color: red;
+    font-size: 2rem;
+}
+.f-info{
+    height: 8rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #ebebeb;
+}
+.f-social,.f-terms,.companyname{
+    width: 100%;
+}
+.f-terms a{
+    color: #222222;
+    text-decoration: none;
+    margin :0.5rem;
+    
+
+}
+.f-terms a :hover{
+  text-decoration: underline;
+}
+.f-social i{
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+/* cards */
+
+.listing-card{
+    border : none !important;
+    margin: 1.4rem;
+
+} 
+.card-img-top {
+    border-radius: 1rem;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+.listing-link{
+    text-decoration: none !important;
+    color: #222222;
+}
+.card-img-overlay{
+    
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    
+    opacity: 0.2;
+    background-color: white;
+}
+.container{
+    flex: 1 !important;
+    margin: none;
+}
+.btn-{
+    background-color: red !important;
+    border: none !important;
+}
+.show-image{
+    height: 30vh;
+    width: 25rem !important;
+   
+}
+.head{
+    margin-top: 1rem !important;
+}
+.box{
+    display: flex;
+}
+.act{
+    margin-left: 2rem;
+    background-color: #222222 !important;
+}
+

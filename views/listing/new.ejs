@@ -1,30 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<% layout('/layout/boilerplate.ejs') -%>
 <body>
-    <form action="/listings" method="post">
-        <h2>Add new listing</h2>
-        <input type="text" name="listing[title]" placeholder="enter title">
-        <br><br>
-        <textarea name="listing[description]" placeholder="give your description"></textarea>
-        <br><br>
-        <input type="text" placeholder="URL/Link" name="listing[image]">
-        <br> <br> 
+     <div class="row">
+        <div class="col-8 offset-2">
+         <form action="/listings" method="post" novalidate class="needs-validation"  >
+            <br>
+             <h2>Add new listing</h2>
+        
+        
+        <div class="mb-3">
+            <lable for="title" class="form-lable">New title</lable>
+            <input type="text" name="listing[title]" placeholder="enter title" class="form-control" id="title" required>
+            <div class="valid-feedback">Good job</div>
+            <div class="invalid-feedback">you missed</div>
+            
 
-        <input type="number" placeholder="Pay" name="listing[price]">
-        <br><br>
-        <input type="text" placeholder="delhi" name="listing[location]">
+        </div>
+<div  class="mb-3">
+            <lable for="description" class="form-label">Decription</lable>
+            <textarea name="listing[description]" placeholder="give your description"  class="form-control" id="description"   required></textarea>
+            <div class="valid-feedback">Go on</div>
+            <div class="invalid-feedback">you must have not written</div>
+        </div>
 
-        <br><br>
-        <input type="text" name="listing[country]" >
-        <br><br>
-        <button>add</button>
+        <div  class="mb-3">
+            <lable for="image" class="form-lable">Image</lable>
+             <input type="text" placeholder="URL/Link" name="listing[image] "  class="form-control" id="image">
+        </div>
+
+        <div  class="mb-3">
+            <lable for="price"class="form-lable" >Price</lable>
+         <input type="number" placeholder="Pay" name="listing[price]"  class="form-control" id="price"  >
+         <div class="valid-feedback">your price is decent</div>
+            <div class="invalid-feedback">you should check price once more</div>
+        </div>
+
+<div class="row">
+  
+        <div  class="mb-3 col-md-4">
+            <lable for="location" class="form-lable">Location</lable>
+             <input type="text" placeholder="delhi" name="listing[location]"  class="form-control" id="location" required>
+             <div class="valid-feedback">location valid </div>
+            <div class="invalid-feedback">location does'nt exist</div>
+        </div>
+           <div  class="mb-3 col-md-8">
+            <lable for="country" class="form-lable">Country</lable>
+             <input type="text" name="listing[country]"  class="form-control" id="country" required>
+              <div class="valid-feedback">country valid </div>
+            <div class="invalid-feedback">country does'nt exist</div>
+           
+        </div>
+    </div>
+    
+
+
+
+     
+
+       
+        
+       
+       
+
+       
+       
+        
+        <button class="btn btn-dark btn">add</button>
+        <br>
+        <br>
 
     </form>
+    </div>
+
+    </div>
+
     
 </body>
-</html>
+
+   
+   
+   
+    
+
