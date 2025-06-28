@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const listing = require("./routers/listings.js");
 const review = require("./routers/reviews.js");
+const users = require("./routers/user.js");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
@@ -32,22 +33,37 @@ app.use(session(
              httpOnly : true, 
         }
     }
-))
+));
+
 
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
     res.locals.err = req.flash("err");
     next();
 });
-app.use(passport.initialize());
-app.use(passport.session());
+
 passport.use(new LocalStrategy(user.authenticate()));
 passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
 
+// app.get("/demouser", async(req,res)=>{
+//     let newuser = new user({
+//         email : "sp7017287gmail.com",
+//         username : "sudhanshu",
+//     })
+
+//     let registered =  await user.register(newuser,"helloworld");
+//     console.log(registered);
+//     res.send(registered);
+
+// })
 
 
+app.use("/",users);
 app.use("/listings",listing);
 app.use("/listings/:id/reviews",review);
 
