@@ -43,6 +43,7 @@ app.use(passport.session());
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
     res.locals.err = req.flash("err");
+    res.locals.currentuser = req.user;
     next();
 });
 

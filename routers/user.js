@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router({mergeParams :true});
+const router = express.Router();
 
 const user = require("../models/user");
 const passport = require("passport");
@@ -14,11 +14,20 @@ router.post("/signup",async(req,res)=>{
     let newuser = new user ({
         username,
         email,
+       
 
     });
-    let register =await  user.register(newuser,"password");
+    let register =await  user.register(newuser,password);
       console.log(register);
-      res.redirect("/login");
+      req.login(register,(err)=>{
+        if(err){
+            return next(err);
+        }
+        req.flash("success","welcome to the wonderlust");
+        res.redirect("/listings");
+      })
+      
+      
 
     } 
     catch(er){
@@ -30,22 +39,36 @@ router.post("/signup",async(req,res)=>{
     
 
 })
+router.get("/logout",(req,res,next)=>{
+    req.logOut((err)=>{
+        if(err) {
+            return next(err);
+
+        }
+        req.flash("success","user has been logut");
+        res.redirect("/listings")
+
+    })
+})  
 
 router.get("/login" , async(req,res)=>{
     res.render("./users/login.ejs");
 });
-router.use((req, res, next) => {
-  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-  next();
-});
+
 
 router.post("/login",
     passport.authenticate("local", {
     failureRedirect: "/login",
     failureFlash: true,
-     successRedirect: "/listings?_= + Date.now()",  // Add this
-    successFlash: "WELCOME TO NEW WORLD"  // Add this
+   
 }),
+async (req,res)=>{
+
+req.flash("success","welcome to the wonderlust");
+    res.redirect("/listings");
+    
+    
+}
 
 
 

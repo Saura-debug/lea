@@ -4,6 +4,8 @@ const {listingSchema} = require("../servervalidatiom.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listings.js");
 const ExpressError = require("../utils/expresserror.js");
+const {isloggedin} = require("../middleware.js");
+
 
 
 
@@ -22,7 +24,9 @@ const validate = (req,res,next)=>{
  //new
 
  
- router.get("/new", (req,res)=>{
+ router.get("/new", isloggedin, (req,res)=>{
+    
+   
     res.render("listing/new.ejs");
  })
 
@@ -77,6 +81,18 @@ router.post("/", validate,wrapAsync(async(req,res,next)=>{
     
    
 }));
+
+router.get("/logout",(req,res,next)=>{
+    req.logOut((err)=>{
+        if(err) {
+            return next(err);
+
+        }
+        req.flash("success","user has been logut");
+        res.redirect("/listings")
+
+    })
+})
 // delete of the listings
 router.delete("/:id", wrapAsync(async (req,res)=>{
     let {id} = req.params;
