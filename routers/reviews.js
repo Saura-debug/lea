@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router({mergeParams :true});
 const review = require("../models/review.js");
 const wrapAsync = require("../utils/wrapAsync.js");
-const {reviewSchema} = require("../servervalidatiom.js");
+const {reviewSchema,} = require("../servervalidatiom.js");
 const Listing = require("../models/listings.js");
+const {isloggedin,reviewauthen} = require("../middleware.js"); 
+const reviewcontroller = require("../controlers/review.js");
 
 
  const reviewvalidate = (req,res,next)=>{
@@ -16,27 +18,8 @@ const Listing = require("../models/listings.js");
         next();
     }
 };
-router.delete("/:reviewid",wrapAsync(async(req,res)=>{
-        let {id, reviewid} = req.params;
-        await Listing.findByIdAndUpdate(id,{ $pull: {reviews: reviewid}});
-        await review.findByIdAndDelete(reviewid);
+router.delete("/:reviewid", reviewauthen,wrapAsync(reviewcontroller.deletereview))
 
-        res.redirect(`/listings/${id}`);
-
-    }))
-
-router.post("/" , reviewvalidate , wrapAsync(async (req,res)=>{
-    let listing =  await Listing.findById(req.params.id);
-    let newreview = new review(req.body.review);
-     listing.reviews.push(newreview);
-       await listing.save();
-    await newreview.save();
-   
-    res.redirect(`/listings/${listing._id}`);
-
-   
-
-
-}))
+router.post("/" , isloggedin, reviewvalidate , wrapAsync(reviewcontroller.addedreview))
 
 module.exports = router;

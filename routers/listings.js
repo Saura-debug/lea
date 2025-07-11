@@ -4,7 +4,8 @@ const {listingSchema} = require("../servervalidatiom.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listings.js");
 const ExpressError = require("../utils/expresserror.js");
-const {isloggedin} = require("../middleware.js");
+const {isloggedin,owner} = require("../middleware.js");
+const listingcontroller = require("../controlers/listings.js");
 
 
 
@@ -24,93 +25,27 @@ const validate = (req,res,next)=>{
  //new
 
  
- router.get("/new", isloggedin, (req,res)=>{
-    
-   
-    res.render("listing/new.ejs");
- })
+ router.get("/new", isloggedin,wrapAsync(listingcontroller.formaddnewlisting ));
 
- router.get("/home", (req,res) =>{
-    res.redirect("/listings");
- })
- router.get("/:id",wrapAsync(async (req,res,next)=>{
-    let  { id } = req.params;
-  
-    const listing = await Listing.findById(id).populate("reviews");
-if(!listing){
-    req.flash("err", "the listing you have requested does not exist");
-    res.redirect("/listings");
-}
- else {
-    res.render("listing/show.ejs", {listing});
-
-}
-   
-    
- }));
+ router.get("/home",listingcontroller.homelisting );
+ router.get("/:id",wrapAsync(listingcontroller.detaillisting));
 
 
 
 
-router.put("/:id",validate,wrapAsync( async (req,res)=>{
-    let {id} = req.params;
-    await Listing.findByIdAndUpdate(id,{...req.body.listing});
-    req,flash("success","edited successfully")
-    res.redirect("/listings");
-}))
+router.put("/:id", owner,validate,wrapAsync( listingcontroller.editlisting));
 
 
 // index route
-router.get("/", wrapAsync(async(req,res)=>{
-    let alllisting = await Listing.find({});
-  
-    res.render("listing/index.ejs",{alllisting});
+router.get("/", wrapAsync(listingcontroller.alllisting));
+router.post("/", validate,wrapAsync(listingcontroller.addedlisting));
 
- 
-}));
-router.post("/", validate,wrapAsync(async(req,res,next)=>{
-    
-         let newlisting = new Listing(req.body.listing);
-          let result = listingSchema.validate(req.body);
-          console.log(result);
-    await newlisting.save();
-    req.flash("success", "new listing has been added");
-    res.redirect("/listings");
 
-    
-    
-   
-}));
-
-router.get("/logout",(req,res,next)=>{
-    req.logOut((err)=>{
-        if(err) {
-            return next(err);
-
-        }
-        req.flash("success","user has been logut");
-        res.redirect("/listings")
-
-    })
-})
 // delete of the listings
-router.delete("/:id", wrapAsync(async (req,res)=>{
-    let {id} = req.params;
-   const aaa  = await Listing.findByIdAndDelete(id);
-   req.flash("success","your one home has been deleted");
- 
-    res.redirect("/listings");
-}));
+router.delete("/:id", owner, wrapAsync(listingcontroller.deletelisting));
 
 
- router.get("/:id/edit", wrapAsync(async (req,res)=>{
-    let {id} = req.params;
-    const listing = await Listing.findById(id);
-    
-    res.render("listing/edit.ejs",{listing});
-
-
-}));
+ router.get("/:id/edit", wrapAsync(listingcontroller.formeditlisting));
 
  // delete Reivew
 
